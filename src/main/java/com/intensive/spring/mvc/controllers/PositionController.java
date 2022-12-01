@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PositionController {
@@ -18,7 +19,7 @@ public class PositionController {
         this.positionService = positionService;
     }
 
-    @RequestMapping(value = "/positions", method = RequestMethod.GET)
+    @RequestMapping(value = "/positions")
     public String listPositions(Model model) {
         model.addAttribute("entity", new Position());
         model.addAttribute("entities", this.positionService.getAllPositions());
@@ -40,6 +41,15 @@ public class PositionController {
     @RequestMapping("/position/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model){
         model.addAttribute("entity", this.positionService.getPositionById(id));
+        model.addAttribute("entities", this.positionService.getAllPositions());
+        return "position";
+    }
+    @RequestMapping(value = "/position/update", method = RequestMethod.POST)
+    public String update(@RequestParam("name") String name, @RequestParam("id") String id, Model model){
+        Position position = positionService.getPositionById(Integer.parseInt(id));
+        position.setName(name);
+        positionService.updatePosition(position);
+        model.addAttribute("entity", new Position());
         model.addAttribute("entities", this.positionService.getAllPositions());
         return "position";
     }

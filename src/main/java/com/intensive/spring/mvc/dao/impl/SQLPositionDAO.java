@@ -40,7 +40,7 @@ public class SQLPositionDAO implements PositionDAO {
     public Position getPositionById(int id) {
         Position result;
         sessionFactory.getCurrentSession().beginTransaction();
-        result =  sessionFactory.getCurrentSession().getReference(Position.class, id);
+        result =  sessionFactory.getCurrentSession().get(Position.class, id);
         sessionFactory.getCurrentSession().getTransaction().commit();
         return result;
     }
