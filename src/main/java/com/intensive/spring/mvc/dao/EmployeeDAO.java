@@ -9,11 +9,11 @@ public interface EmployeeDAO {
     public void setSessionFactory(SessionFactory sessionFactory);
     void createEmployee(Employee employee);
 
-    Employee getEmployeeByID(int id);
+    Employee getEmployeeById(int id);
 
     void updateEmployee(Employee employee);
 
-    void deleteEmployee(Employee employee);
+    List<Employee> getAllEmployees();
 
-    List<Employee> getEmployees();
+    void deleteEmployee(Employee employee);
 }

@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "position")
@@ -17,6 +19,9 @@ public class Position {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "position")
+    private List<Employee> positions;
 
     public Position() {
     }
@@ -39,5 +44,13 @@ public class Position {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Employee> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Employee> positions) {
+        this.positions = positions;
     }
 }

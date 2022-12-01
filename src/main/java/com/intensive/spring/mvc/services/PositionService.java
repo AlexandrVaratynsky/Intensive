@@ -7,7 +7,9 @@ import java.util.List;
 public interface PositionService {
     public void addPosition(Position position);
     public void updatePosition(Position position);
-    public List<Position> listPosition();
+    public List<Position> getAllPositions();
     public Position getPositionById(int id);
     public void removePosition(int id);
+
+    Position getDefaultPosition();
 }

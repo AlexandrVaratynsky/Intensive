@@ -7,88 +7,72 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class SQLPositionDAO implements PositionDAO {
     private SessionFactory sessionFactory;
-    private final String DEFAULT_POSITION_NAME = "novice";
 
     @Autowired
-    public void setSessionFactory(SessionFactoryBean sessionFactoryBean) {
-        this.sessionFactory = sessionFactoryBean.sessionFactory();
-
-    }
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
 
     }
 
-    private boolean sourceIsEmpty() {
-        boolean result;
-        Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        result = session.createQuery("select 1 from Position ").setMaxResults(1).list().isEmpty();
-        session.getTransaction().commit();
-        return result;
-    }
-
     @Override
     public void createPosition(Position position) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.persist(position);
-
-    }
-
-    @Override
-    public Position getPositionByID(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Position position = (Position) session.getReference(Position.class, new Integer(id));
-        return position;
-
-    }
-
-    @Override
-    public Position getPositionByName(String positionName) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        Position position = (Position) session.createQuery(" from Position where name = '"
-                + positionName + "'").list().get(0);
-        session.getTransaction().commit();
-        return position;
-
-    }
-
-    @Override
-    public Position getDefaultPosition() {
-        Position result;
-        if (sourceIsEmpty()) {
-            result = createDefaultPosition();
-        } else {
-            result = getPositionByName(DEFAULT_POSITION_NAME);
-        }
-        return result;
-    }
-
-    private Position createDefaultPosition() {
-        Position result;
-        Session session = this.sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        session.persist(new Position(DEFAULT_POSITION_NAME));
-        session.getTransaction().commit();
-        result = getPositionByName(DEFAULT_POSITION_NAME);
-        return result;
+        sessionFactory.getCurrentSession().beginTransaction();
+        sessionFactory.getCurrentSession().persist(position);
+        sessionFactory.getCurrentSession().getTransaction().commit();
     }
 
     @Override
     public void updatePosition(Position position) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.merge(position);
+        sessionFactory.getCurrentSession().beginTransaction();
+        sessionFactory.getCurrentSession().merge(position);
+        sessionFactory.getCurrentSession().getTransaction().commit();
+    }
+
+    @Override
+    public Position getPositionById(int id) {
+        Position result;
+        sessionFactory.getCurrentSession().beginTransaction();
+        result =  sessionFactory.getCurrentSession().getReference(Position.class, id);
+        sessionFactory.getCurrentSession().getTransaction().commit();
+        return result;
+    }
+
+    @Override
+    public List<Position> getPositionsByName(String positionName){
+        List<Position> result;
+        sessionFactory.getCurrentSession().beginTransaction();
+
+        result = sessionFactory.getCurrentSession().createQuery(
+                "from Position where name ='" + positionName + "'",
+                Position.class)
+                .getResultList();
+        sessionFactory.getCurrentSession().getTransaction().commit();
+        return result;
+    }
+    @Override
+    public List<Position> getAllPositions(){
+        List<Position> result;
+        sessionFactory.getCurrentSession().beginTransaction();
+        result = sessionFactory.getCurrentSession().createQuery(
+                "from Position",
+                Position.class)
+                .getResultList();
+        sessionFactory.getCurrentSession().getTransaction().commit();
+        return result;
     }
 
     @Override
     public void deletePosition(Position position) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.remove(position);
+        sessionFactory.getCurrentSession().beginTransaction();
+        sessionFactory.getCurrentSession().remove(position);
+        sessionFactory.getCurrentSession().getTransaction().commit();
     }
 }

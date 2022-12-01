@@ -6,13 +6,34 @@ import com.intensive.spring.mvc.services.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
+
 @Service
 public class PositionServiceImpl implements PositionService {
+    private final String DEFAULT_POSITION_NAME = "novice";
     private PositionDAO positionDAO;
+
+    private Position defaultPosition;
+
+    @PostConstruct
+    private void init() {
+        List<Position> positions = positionDAO.getPositionsByName(DEFAULT_POSITION_NAME);
+        if (positions.isEmpty()) {
+            defaultPosition = new Position(DEFAULT_POSITION_NAME);
+            positionDAO.createPosition(defaultPosition);
+        } else {
+            defaultPosition = positions.get(0);
+        }
+    }
+
+    public void setDefaultPosition(Position defaultPosition) {
+        this.defaultPosition = defaultPosition;
+    }
+
     @Autowired
-    public void EmployeeDAO(PositionDAO employeeDAO) {
-        this.positionDAO = employeeDAO;
+    public void PositionDAO(PositionDAO positionDAO) {
+        this.positionDAO = positionDAO;
     }
 
     @Override
@@ -26,17 +47,22 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public List<Position> listPosition() {
-        return null;
+    public List<Position> getAllPositions() {
+        return positionDAO.getAllPositions();
     }
 
     @Override
     public Position getPositionById(int id) {
-        return positionDAO.getPositionByID(id);
+        return positionDAO.getPositionById(id);
     }
 
     @Override
     public void removePosition(int id) {
-        positionDAO.deletePosition(positionDAO.getPositionByID(id));
+        positionDAO.deletePosition(positionDAO.getPositionById(id));
+    }
+
+    @Override
+    public Position getDefaultPosition() {
+        return defaultPosition;
     }
 }

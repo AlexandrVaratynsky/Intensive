@@ -19,8 +19,8 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne
-    @JoinColumn(name = "pos_id")
+    @ManyToOne
+    @JoinColumn(name = "position_id")
     private Position position;
 
     @ManyToMany
