@@ -1,5 +1,6 @@
 package com.intensive.spring.mvc.controllers;
 
+import com.intensive.spring.mvc.entities.Position;
 import com.intensive.spring.mvc.entities.Project;
 import com.intensive.spring.mvc.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProjectController {
@@ -41,6 +43,16 @@ public class ProjectController {
     @RequestMapping("/project/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model){
         model.addAttribute("entity", this.projectService.getProjectById(id));
+        model.addAttribute("entities", this.projectService.getAllProject());
+        return "project";
+    }
+
+    @RequestMapping(value = "/project/update", method = RequestMethod.POST)
+    public String update(@RequestParam("name") String name, @RequestParam("id") String id, Model model){
+        Project project = projectService.getProjectById(Integer.parseInt(id));
+        project.setName(name);
+        projectService.updateProject(project);
+        model.addAttribute("entity", new Project());
         model.addAttribute("entities", this.projectService.getAllProject());
         return "project";
     }

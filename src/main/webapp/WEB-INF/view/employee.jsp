@@ -12,20 +12,25 @@
 <a href="<c:url value='/projects' />">  Projects  </a>
 <a href="<c:url value='/customers' />">  Customers </a>
 <br>
-<form:form action="employee/add" modelAttribute="employee">
-    Firstname <form:input path="firstName"/>
-    Lastname <form:input path="lastName"/>
 
-<%--    Position <form:select path="position">--%>
-<%--    <form:options items="${listPositions}"/>--%>
-<%--</form:select>--%>
+<c:set var="formAction" value="employee/add" />
+<c:set var="buttonCaption" value="'add'" />
 
-    <input type="submit" value="add">
+<c:if test="${employee.id!=0}">
+    <c:set var="formAction" value="${pageContext.request.contextPath}/employee/update" />
+    <c:set var="buttonCaption" value="'save'" />
+</c:if>
 
-
+<form:form action="${formAction}" modelAttribute="employee">
+    first_name <form:input path="firstName"/>
+    last_name <form:input path="lastName"/>
+    <form:hidden path="id"/>
+    <input type="submit" value=${buttonCaption}>
 </form:form>
+
+
 <h3>Employees List</h3>
-<c:if test="${!empty listEmployees}">
+<c:if test="${!empty employees}">
     <table class="tg">
         <tr>
             <th>ID</th>
@@ -33,7 +38,7 @@
             <th>last_name</th>
 
         </tr>
-        <c:forEach items="${listEmployees}" var="person">
+        <c:forEach items="${employees}" var="person">
             <tr>
                 <td>${person.id}</td>
                 <td>${person.firstName}</td>

@@ -1,6 +1,7 @@
 package com.intensive.spring.mvc.controllers;
 
 import com.intensive.spring.mvc.entities.Employee;
+import com.intensive.spring.mvc.entities.Position;
 import com.intensive.spring.mvc.services.EmployeeService;
 import com.intensive.spring.mvc.services.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class EmployeeController {
@@ -50,6 +52,18 @@ public class EmployeeController {
     public String editEmployee(@PathVariable("id") int id, Model model){
         model.addAttribute("employee", this.employeeService.getEmployeeById(id));
         model.addAttribute("listEmployees", this.employeeService.getAllEmployees());
+        return "employee";
+    }
+
+    @RequestMapping(value = "/employee/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("employee") Employee employee,
+                         Model model){
+        Employee emp = employeeService.getEmployeeById(employee.getId());
+        emp.setFirstName(employee.getFirstName());
+        emp.setLastName(employee.getLastName());
+        employeeService.updateEmployee(emp);
+        model.addAttribute("employee", new Employee());
+        model.addAttribute("employees", this.employeeService.getAllEmployees());
         return "employee";
     }
 }

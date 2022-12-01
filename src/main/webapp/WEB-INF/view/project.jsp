@@ -12,18 +12,21 @@
 <a href="<c:url value='/projects' />">  Projects  </a>
 <a href="<c:url value='/customers' />">  Customers </a>
 <br>
-<form:form action="project/add" modelAttribute="entity">
+<c:set var="formAction" value="project/add" />
+<c:set var="buttonCaption" value="'add'" />
+
+<c:if test="${entity.id!=0}">
+    <c:set var="formAction" value="${pageContext.request.contextPath}/project/update" />
+    <c:set var="buttonCaption" value="'save'" />
+</c:if>
+
+<form:form action="${formAction}" modelAttribute="entity">
+    position name <form:input path="name"/>
     <form:hidden path="id"/>
-    project name <form:input path="name"/>
-
-    <%--    Position <form:select path="position">--%>
-    <%--    <form:options items="${listPositions}"/>--%>
-    <%--</form:select>--%>
-
-    <input type="submit" value="add">
-
-
+    <input type="submit" value=${buttonCaption}>
 </form:form>
+
+
 <h3>Projects List</h3>
 <c:if test="${!empty entities}">
     <table class="tg">
