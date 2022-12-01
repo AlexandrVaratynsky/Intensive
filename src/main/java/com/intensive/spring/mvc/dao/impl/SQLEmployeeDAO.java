@@ -48,9 +48,8 @@ public class SQLEmployeeDAO implements EmployeeDAO {
         sessionFactory.getCurrentSession().beginTransaction();
         result = sessionFactory.getCurrentSession().createQuery(
                 "from Employee",
-                Employee.class
-        ).
-                getResultList();
+                Employee.class)
+                .getResultList();
         sessionFactory.getCurrentSession().getTransaction().commit();
         return result;
     }

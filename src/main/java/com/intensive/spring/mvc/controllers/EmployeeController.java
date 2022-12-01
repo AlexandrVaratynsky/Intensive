@@ -40,13 +40,13 @@ public class EmployeeController {
 
     }
 
-    @RequestMapping("/remove/{id}")
+    @RequestMapping("/employee/remove/{id}")
     public String removeEmployee(@PathVariable("id") int id){
         this.employeeService.removeEmployee(id);
         return "redirect:/employees";
     }
 
-    @RequestMapping("/edit/{id}")
+    @RequestMapping("/employee/edit/{id}")
     public String editEmployee(@PathVariable("id") int id, Model model){
         model.addAttribute("employee", this.employeeService.getEmployeeById(id));
         model.addAttribute("listEmployees", this.employeeService.getAllEmployees());

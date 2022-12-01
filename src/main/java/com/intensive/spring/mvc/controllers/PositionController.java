@@ -25,19 +25,19 @@ public class PositionController {
         return "position";
     }
 
-    @RequestMapping(value= "/positions/add", method = RequestMethod.POST)
+    @RequestMapping(value= "/position/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("entity") Position position){
         this.positionService.addPosition(position);
         return "redirect:/positions";
     }
 
-    @RequestMapping("/positions/remove/{id}")
+    @RequestMapping("/position/remove/{id}")
     public String remove(@PathVariable("id") int id){
         this.positionService.removePosition(id);
         return "redirect:/positions";
     }
 
-    @RequestMapping("/positions/edit/{id}")
+    @RequestMapping("/position/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model){
         model.addAttribute("entity", this.positionService.getPositionById(id));
         model.addAttribute("entities", this.positionService.getAllPositions());

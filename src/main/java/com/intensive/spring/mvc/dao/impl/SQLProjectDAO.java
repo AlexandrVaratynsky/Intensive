@@ -47,7 +47,7 @@ public class SQLProjectDAO implements ProjectDAO {
         List<Project> result;
         sessionFactory.getCurrentSession().beginTransaction();
         result = sessionFactory.getCurrentSession().createQuery(
-                "from Project ",
+                "from Project",
                 Project.class)
                 .getResultList();
         sessionFactory.getCurrentSession().getTransaction().commit();

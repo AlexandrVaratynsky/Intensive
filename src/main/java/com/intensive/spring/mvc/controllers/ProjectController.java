@@ -25,20 +25,20 @@ public class ProjectController {
         return "project";
     }
 
-    @RequestMapping(value= "/projects/add", method = RequestMethod.POST)
+    @RequestMapping(value= "/project/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("entity") Project project){
         this.projectService.addProject(project);
         return "redirect:/projects";
 
     }
 
-    @RequestMapping("/projects/remove/{id}")
+    @RequestMapping("/project/remove/{id}")
     public String remove(@PathVariable("id") int id){
         this.projectService.removeProject(id);
         return "redirect:/projects";
     }
 
-    @RequestMapping("/projects/edit/{id}")
+    @RequestMapping("/project/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model){
         model.addAttribute("entity", this.projectService.getProjectById(id));
         model.addAttribute("entities", this.projectService.getAllProject());

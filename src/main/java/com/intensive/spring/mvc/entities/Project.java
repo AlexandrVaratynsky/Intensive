@@ -16,8 +16,8 @@ public class Project {
     @Column(name = "name")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "cust_id")
+    @ManyToOne
+    @JoinColumn(name = "customer")
     private Customer customer;
 
     @ManyToMany
@@ -38,7 +38,7 @@ public class Project {
     public Project() {
     }
 
-    private Customer getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 

@@ -7,6 +7,11 @@
     <title>Employee Page</title>
 </head>
 <body>
+<a href="<c:url value='/positions' />">  Positions  </a>
+<a href="<c:url value='/employees' />">  Employees  </a>
+<a href="<c:url value='/projects' />">  Projects  </a>
+<a href="<c:url value='/customers' />">  Customers </a>
+<br>
 <form:form action="employee/add" modelAttribute="employee">
     Firstname <form:input path="firstName"/>
     Lastname <form:input path="lastName"/>
@@ -15,7 +20,7 @@
 <%--    <form:options items="${listPositions}"/>--%>
 <%--</form:select>--%>
 
-    <input type="submit" value="OK">
+    <input type="submit" value="add">
 
 
 </form:form>
@@ -33,8 +38,8 @@
                 <td>${person.id}</td>
                 <td>${person.firstName}</td>
                 <td>${person.lastName}</td>
-                <td><a href="<c:url value='/edit/${person.id}' />">Edit </a></td>
-                <td><a href="<c:url value='/remove/${person.id}' />">Delete</a></td>
+                <td><a href="<c:url value='/employee/edit/${person.id}' />">Edit </a></td>
+                <td><a href="<c:url value='/employee/remove/${person.id}' />">Delete</a></td>
             </tr>
         </c:forEach>
     </table>

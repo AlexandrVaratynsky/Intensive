@@ -25,20 +25,20 @@ public class CustomerController {
         return "customer";
     }
 
-    @RequestMapping(value= "/customers/add", method = RequestMethod.POST)
+    @RequestMapping(value= "/customer/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("entity") Customer customer){
         this.customerService.addCustomer(customer);
         return "redirect:/customers";
 
     }
 
-    @RequestMapping("/customers/remove/{id}")
+    @RequestMapping("/customer/remove/{id}")
     public String remove(@PathVariable("id") int id){
         this.customerService.removeCustomer(id);
         return "redirect:/customers";
     }
 
-    @RequestMapping("/customers/edit/{id}")
+    @RequestMapping("/customer/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model){
         model.addAttribute("entity", this.customerService.getCustomerById(id));
         model.addAttribute("entities", this.customerService.getAllCustomer());
