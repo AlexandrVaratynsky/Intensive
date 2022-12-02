@@ -13,7 +13,7 @@
 <a href="<c:url value='/customers' />">  Customers </a>
 <br>
 
-c:set var="formAction" value="customer/add" />
+<c:set var="formAction" value="customer/add" />
 <c:set var="buttonCaption" value="'add'" />
 
 <c:if test="${entity.id!=0}">
@@ -22,7 +22,7 @@ c:set var="formAction" value="customer/add" />
 </c:if>
 
 <form:form action="${formAction}" modelAttribute="entity">
-    position name <form:input path="name"/>
+    customer name <form:input path="name"/>
     <form:hidden path="id"/>
     <input type="submit" value=${buttonCaption}>
 </form:form>
